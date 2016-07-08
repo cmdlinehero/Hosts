@@ -9,3 +9,7 @@ I have created a script that adds entries to the hosts file based on the block l
 My script will fetch these block lists from the Internet and add them to your hosts file. This script is available for and been tested on Windows 10, Ubuntu 14.04, and OSX 10.11.5.</br></br>
 Use the .sh for Linux and Mac, and the .ps1 for Windows. 
 
+</br></br>
+Note: Use this script at your own risk. </br>
+The websites hosting block-lists are the responsible creators and owners of said lists. </br>
+No warranty is expressed or implied. 
