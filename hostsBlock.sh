@@ -10,33 +10,31 @@
 #http://someonewhocares.org/hosts/hosts
 #http://www.malwaredomainlist.com/hostslist/hosts.txt
 
-# Check if hosts file exists 
+# If hosts file exists 
 hostFile="/etc/hosts"
 if [ -f "$hostFile" ]; then
-   echo "$hostFile found."
-else
-   echo "$hostFile not found."
+
+   # Check to see if original hosts file backed up	
+   backFile="/etc/hosts.bak"
+   if [ -f "$backFile" ]; then
+      echo "$backFile already exists."
+
+   # Makes a backup copy of original hosts file
+   else
+      cp /etc/hosts /etc/hosts.bak
+      echo "Host file backed up to $backFile."
 fi
 
-# Check if hosts backup file exists 
-backFile="/etc/hosts.bak"
-if [ -f "$backFile" ]; then
-   echo "$backFile already exists."
-else
-   cp /etc/hosts /etc/hosts.bak
-   echo "Host file backed up to $backFile."
-fi
-
-# Build array of block list URLs
+# Build array containing URLs. 
 declare -a blockLists=('http://winhelp2002.mvps.org/hosts.txt'
 		'http://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts;showintro=0'
 		'http://someonewhocares.org/hosts/hosts'
 		'http://www.malwaredomainlist.com/hostslist/hosts.txt');
 
-# Clear current hosts file
+# Clear hosts file
 echo " " > $hostFile
 
-# Loop through array and append data to hosts file
+#Loop through array, appending hosts file
 for i in "${blockLists[@]}"
 do
    curl -s -L "$i" >> $hostFile
@@ -45,3 +43,9 @@ done
 
 # Completion message
 echo "Hosts file is complete."
+
+# Hosts file was not found in /etc/hosts
+else
+   echo "The hosts file was not found."
+   echo "Your OS may not be supported by this script."
+fi
